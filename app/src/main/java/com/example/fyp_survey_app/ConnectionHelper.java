@@ -4,7 +4,9 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import com.example.fyp_survey_app.Model.Doctor;
+import com.example.fyp_survey_app.Model.Patient;
 
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,31 +16,32 @@ import java.sql.Statement;
 
 public class ConnectionHelper {
 
-    /* user name. */
-    String dbUserName = "glihorrcogsbsf";
-    /* password. */
-    String dbPassword = "d02d99f7fec51b2ee736a7ee753d8af3ef92445d617f19906fdd0dcee66996fa";
-    /* database name */
-    String ServenName = "ec2-54-225-227-125.compute-1.amazonaws.com";
+    //Database URL
+    private static final String JDBC_DATABASE_URL = "jdbc:postgres://glihorrcogsbsf:d02d99f7fec51b2ee736a7ee753d8af3ef92445d617f19906fdd0dcee66996fa@ec2-54-225-227-125.compute-1.amazonaws.com:5432/dbv5me60jqllra";
 
-    public Connection connection(){
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        java.sql.Connection connection = null;
-        String dbConnUrl = null;
+//    public Connection getConnection(){
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+//        java.sql.Connection connection = null;
+//        String dbConnUrl = null;
+//
+//        try{
+//            dbConnUrl = "jdbc:postgres://glihorrcogsbsf:d02d99f7fec51b2ee736a7ee753d8af3ef92445d617f19906fdd0dcee66996fa@ec2-54-225-227-125.compute-1.amazonaws.com:5432/dbv5me60jqllra";
+//            connection = DriverManager.getConnection(dbConnUrl);
+//        }catch (SQLException se){
+//            Log.e("error from SQL ",se.getMessage());
+//        }
+//        return connection;
+//    }
 
-        try{
-            dbConnUrl = "jdbc:postgres://glihorrcogsbsf:d02d99f7fec51b2ee736a7ee753d8af3ef92445d617f19906fdd0dcee66996fa@ec2-54-225-227-125.compute-1.amazonaws.com:5432/dbv5me60jqllra";
-            connection = DriverManager.getConnection(dbConnUrl);
-        }catch (SQLException se){
-            Log.e("error from SQL ",se.getMessage());
-        }
-        return connection;
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(JDBC_DATABASE_URL);
     }
 
     public String checkUser(String email, String password){
-        Connection conn = connection();
+
         try{
+            Connection conn = getConnection();
             PreparedStatement stmt1 = conn.prepareStatement("SELECT EmailAddress,Password FROM ? WHERE EmailAddress=? and Password=?");
 
             stmt1.setString(1, "Doctor");
@@ -67,10 +70,20 @@ public class ConnectionHelper {
         return null;
     }
 
+    //TODO: Sign up functions
+    public String addDoctor(){
+        return null;
+    }
+
+    public String addPatient(){
+        return null;
+    }
+
+
     public Doctor getDoctorAccount(String email){
         Doctor doctor = new Doctor();
         try{
-            Connection conn = connection();
+            Connection conn = getConnection();
             String query = "SELECT * FROM Doctor WHERE EmailAddress=" + email;
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -96,4 +109,32 @@ public class ConnectionHelper {
         return null;
     }
 
+    public Patient getPatientAccount(String email){
+        Patient patient = new Patient();
+        try{
+            Connection conn = getConnection();
+            String query = "SELECT * FROM Patient WHERE EmailAddress=" + email;
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next())
+            {
+                patient.setPatient_ID(rs.getInt("Patient_ID"));
+                patient.setBirthday(rs.getDate("Birthday"));
+                patient.setContact(rs.getString("Contact"));
+                patient.setEmailAddress(rs.getString("EmailAddress"));
+                patient.setGender(rs.getString("Gender"));
+                patient.setPassword(rs.getString("Password"));
+                patient.setAddress(rs.getString("Address"));
+                patient.setPostalCode(rs.getString("PostalCode"));
+            }
+            stmt.close();
+
+            return patient;
+        }catch (SQLException se){
+            Log.e("Create Patient Account", se.getMessage());
+        }
+
+        return null;
+    }
 }

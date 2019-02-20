@@ -8,12 +8,19 @@ import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.app.ProgressDialog;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.fyp_survey_app.Model.Doctor;
+import com.example.fyp_survey_app.Model.Patient;
 
 public class MainActivity extends Activity {
     private final Activity activity = MainActivity.this;
+
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-    Button loginButton, signupButton;
+    Button loginButton;
+    TextView signupButton;
     EditText emailText, passwordText;
 
     ConnectionHelper connectionHelper;
@@ -21,13 +28,12 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.mainactivity);
+        setContentView(R.layout.main_activity);
 
         loginButton = (Button)findViewById(R.id.button);
-        passwordText = (EditText)findViewById(R.id.editText);
-        emailText = (EditText)findViewById(R.id.editText2);
-
-        signupButton = (Button)findViewById(R.id.button2);
+        passwordText = (EditText)findViewById(R.id.password);
+        emailText = (EditText)findViewById(R.id.username);
+        signupButton = (TextView)findViewById(R.id.signup);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -58,13 +64,14 @@ public class MainActivity extends Activity {
 
         loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
+        // TODO: progress dialog deprecated, think alternative way
+//        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+//                R.style.AppTheme_Dark_Dialog);
+//        progressDialog.setIndeterminate(true);
+//        progressDialog.setMessage("Authenticating...");
+//        progressDialog.show();
 
-        // TODO: Implement your own authentication logic here.
+        // TODO: Authentication Logic
         verifyFromDatabase();
 
         new android.os.Handler().postDelayed(
@@ -73,7 +80,7 @@ public class MainActivity extends Activity {
                         // On complete call either onLoginSuccess or onLoginFailed
                         onLoginSuccess();
                         // onLoginFailed();
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
                     }
                 }, 3000);
     }
@@ -130,16 +137,30 @@ public class MainActivity extends Activity {
     }
 
     private void verifyFromDatabase() {
+        //Validation for Doctor
         if (connectionHelper.checkUser(emailText.getText().toString().trim()
                 , passwordText.getText().toString().trim()) == "doctor") {
-            connectionHelper.getDoctorAccount(emailText.getText().toString());
-            Intent accountsIntent = new Intent(activity, DoctorManagementActivity.class);
-            accountsIntent.putExtra("Doctor_ID", emailText.getText().toString().trim());
+            Doctor doctor = connectionHelper.getDoctorAccount(emailText.getText().toString());
+            Intent doctorAccountsIntent = new Intent(activity, DoctorManagementActivity.class);
+            doctorAccountsIntent.putExtra("Doctor_ID", doctor.getDoctor_ID());
             emptyInputEditText();
-            startActivity(accountsIntent);
+            startActivity(doctorAccountsIntent);
         } else {
             Log.d(TAG, "Verification Failed!");
         }
+
+        //Validation for Patient
+        if (connectionHelper.checkUser(emailText.getText().toString().trim()
+                , passwordText.getText().toString().trim()) == "patient") {
+            Patient patient = connectionHelper.getPatientAccount(emailText.getText().toString());
+            Intent patientAccountsIntent = new Intent(activity, PatientManagementActivity.class);
+            patientAccountsIntent.putExtra("Patient_ID", patient.getPatient_ID());
+            emptyInputEditText();
+            startActivity(patientAccountsIntent);
+        } else {
+            Log.d(TAG, "Verification Failed!");
+        }
+
     }
 
     /**

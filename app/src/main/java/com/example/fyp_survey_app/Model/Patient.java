@@ -1,5 +1,7 @@
 package com.example.fyp_survey_app.Model;
 
+import java.sql.Date;
+
 public class Patient {
     private int patient_ID;
     private String username;
@@ -7,7 +9,7 @@ public class Patient {
     private String password;
     private String address;
     private String gender;
-    private String birthday;
+    private Date birthday;
     private String postalCode;
     private String contact;
 
@@ -59,11 +61,11 @@ public class Patient {
         this.gender = gender;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 

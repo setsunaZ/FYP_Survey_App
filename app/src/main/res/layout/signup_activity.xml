@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ConstaintLayout"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/doctor"
+        android:id="@+id/doctorButton"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="76dp"
@@ -15,13 +15,14 @@
         android:layout_marginBottom="366dp"
         android:text="Doctor"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/patient"
+        app:layout_constraintEnd_toStartOf="@+id/patientButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.765" />
 
     <Button
-        android:id="@+id/patient"
+        android:id="@+id/patientButton"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
@@ -31,7 +32,7 @@
         android:text="Patient"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/doctor"
+        app:layout_constraintStart_toEndOf="@+id/doctorButton"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
@@ -44,7 +45,7 @@
         android:layout_marginBottom="113dp"
         android:text="Set up your account on.."
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/doctor"
+        app:layout_constraintBottom_toTopOf="@+id/doctorButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

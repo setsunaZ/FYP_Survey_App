@@ -1,43 +1,49 @@
 package com.example.fyp_survey_app;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.app.Activity;
+import android.content.Intent;
 import android.widget.Button;
 
 public class SignupActivity extends Activity {
+    private static final String TAG = "SignupActivity";
+    private static final int REQUEST_SIGNUP = 0;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
 
-        Button doctorButton = (Button)findViewById(R.layout.signup_activity.doctor);
-        Button patientButton = (Button)findViewById(R.layout.signup_activity.patient);
+        Button doctorButton = (Button)findViewById(R.id.doctorButton);
+        Button patientButton = (Button)findViewById(R.id.patientButton);
 
         doctorButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                doctorSignUp();
+                Intent intent = new Intent(getApplicationContext(), DoctorSignupActivity.class);
+                startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
+
         patientButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                patientSignUp();
+                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
     }
 
-
-    //TODO: doctor sign up function
-    public void doctorSignUp(){
-        setContentView(R.layout.doctor_signup_layout);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SIGNUP) {
+            if (resultCode == RESULT_OK) {
+                // By default we just finish the Activity and log them in automatically
+                this.finish();
+            }
+        }
     }
 
-    //TODO: patient sign up function
-    public void patientSignUp(){
-        setContentView(R.layout.patient_signup_layout);
-    }
 }

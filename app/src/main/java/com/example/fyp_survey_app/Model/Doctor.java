@@ -3,29 +3,38 @@ package com.example.fyp_survey_app.Model;
 import java.sql.Date;
 
 public class Doctor {
-    private int doctor_ID;
-    private String username;
+    private String doctor_ID;
+    private String firstName;
+    private String lastName;
     private String emailAddress;
     private String password;
     private String gender;
-    private Date birthday;
+    private String birthday;
     private String department;
     private String role;
 
-    public int getDoctor_ID() {
+    public String getDoctor_ID() {
         return doctor_ID;
     }
 
-    public void setDoctor_ID(int doctor_ID) {
+    public void setDoctor_ID(String doctor_ID) {
         this.doctor_ID = doctor_ID;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmailAddress() {
@@ -52,11 +61,11 @@ public class Doctor {
         this.gender = gender;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

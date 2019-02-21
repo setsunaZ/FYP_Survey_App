@@ -71,12 +71,12 @@ public class ConnectionHelper {
     }
 
     //TODO: Sign up functions
-    public String addDoctor(){
-        return null;
+    public boolean addDoctor(Doctor doctor){
+        return false;
     }
 
-    public String addPatient(){
-        return null;
+    public boolean addPatient(){
+        return false;
     }
 
 
